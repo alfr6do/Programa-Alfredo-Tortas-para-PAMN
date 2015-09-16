@@ -1,154 +1,190 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdlib.h>
-#include <math.h>
-#include <string.h>
-#include <conio.h>
-void menu(void);
-void Pago(void);
-void orden(void);
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include<time.h>
 
-int desi,op,a,x=1;
-struct tortas
-	{
-		int CantTortacub,clavecub;
-		int CantTortajam,clavejam;
-		int CantTortaesp,claveesp;
-		int CantTortaref,claveref,clavesal;
-		int PresTortacub,PresTortacub1;
-		int PresTortajam,PresTortajam1;
-		int PresTortaesp,PresTortaesp1;
-		int PresTortaref,PresTortaref1;
-		int Sumatotal;
-		char NomCub[50],NomJam[50],NomEsp[50],NomRef[50],NomSal[50];
-		
-	}tortas;
-void menu(void){
-		
-	system("cls");
-	printf("\t\tMenu\n\n");
-	printf("%d %s %d\n",tortas.clavecub,tortas.NomCub,tortas.PresTortacub1);
-	printf("%d %s %d\n",tortas.clavejam,tortas.NomJam,tortas.PresTortajam1);
-	printf("%d %s %d\n",tortas.claveesp,tortas.NomEsp,tortas.PresTortaesp1);
-	printf("%d %s %d\n",tortas.claveref,tortas.NomRef,tortas.PresTortaref1);
-	printf("%d %s \n",tortas.clavesal,tortas.NomSal);
-	printf("¿Que desea pedir?...");
+struct tortas{
+
+    char tipo[90];
+    int clave;
+    int precio;
+    int num;
+};
+
+
+struct tortas t;
+int x;
+
+//ap=(struct tortas*)malloc((t.num)*sizeof(struct tortas));
+
+main(){
+    int b = 1;
+    t.num=0;
+    struct tortas ap[500];
+    int claves[20];
+
+    while(b==1){
+
+        int opcion;
+        /*ap=(struct tortas**)malloc(sizeof(int*));
+		ap[x]=(struct tortas*)malloc(sizeof(struct tortas));
+        /*  NOTA: me di cuenta que al usar malloc con un contador, el apuntador, en este caso usado como arreglo,
+        al parecer se recorre a la siguiente posicion automaticamente, al menos en C
+        */
+    opcion = menu();
+    x = t.num;
+
+    switch(opcion){
+
+    case 99:
+        b = 0;
+        break;
+
+    case 1:
+        strcpy(ap[x].tipo,"Torta Cubana");
+        ap[x].precio = 40;
+       // ap[0][x] = &torta1;
+        orden(ap);
+        t.num++;
+        break;
+
+    case 2:
+        strcpy(ap[x].tipo,"Torta Jamon");
+        ap[x].precio = 15;
+//        ap = &torta1;
+        orden(ap);
+        t.num++;
+        break;
+
+    case 3:
+        strcpy(ap[x].tipo,"Torta Especial");
+        ap[x].precio = 55;
+       // ap = &torta1;
+        orden(ap);
+        t.num++;
+        break;
+
+    case 4:
+        strcpy(ap[x].tipo,"Refresco");
+        ap[x].precio = 10;
+       // ap = &torta1;
+        orden(ap);
+        t.num++;
+        break;
+
+    default:
+        printf("Opcion invalida...");
+        break;
+    }
+    x++;
+    }
+//    free(ap);
 
 }
 
+int orden(struct tortas ord[500]){
 
-void orden(void){
-	
-	
-		system("cls");
-		printf("Cantidad                Nombre                   Presio               Total");
-		printf("\n\n");
-		if (tortas.CantTortacub>0){
-			printf("%d                      Cubana                    %d",tortas.CantTortacub,tortas.PresTortacub);
-			printf("\n\n");			
-		}
-		if (tortas.CantTortajam>0){
-			printf("%d                      Jamon                     %d",tortas.CantTortajam,tortas.PresTortajam);
-			printf("\n\n");			
-		}
-		if (tortas.CantTortaesp>0){
-			printf("%d                      Especial                  %d",tortas.CantTortaesp,tortas.PresTortaesp);
-			printf("\n\n");			
-		}
-		if (tortas.CantTortaref>0){
-			printf("%d                      Refresco                  %d",tortas.CantTortaref,tortas.PresTortaref);
-			printf("\n\n");			
-		}
-		printf("\n\n                                                                      %d\n\n",tortas.Sumatotal=tortas.PresTortacub+tortas.PresTortaesp+tortas.PresTortajam+tortas.PresTortaref);
-		printf("\n\nDesea Ordenar Algo mas....(Si=1 / No=0)\n");
-		scanf("%i",&desi);
+    int i,total=0,monto,cambio;
+    int mas;
+
+    system("cls");
+
+    printf("----------Orden---------\n");
+    //Recorrer el arreglo e imprimirlo
+    for(i=0; i<=t.num ;i++){
+        printf("\n%s ..........%d",ord[i].tipo,ord[i].precio);
+        total += ord[i].precio ;
+    }
+    printf("\nTotal:   %d\n",total);
+
+    printf("\n¿Desea ordenar algo mas?");
+    printf("\n1.- Si");
+    printf("\n2.- No\n");
+    scanf("%d",&mas);
+
+    if(mas == 2){
+
+        printf("\nMonto recibido? ");
+        scanf("%d",&monto);
+        cambio = monto-total;
+        printf("\nCambio: \n \t%d \n\n GRACIAS POR SU COMPRA\n",cambio);
+        ticket(ord);
+        system("pause");
+        t.num=0;
+        system("cls");
+    }
+    else{
+
+        system("cls");
+    }
+
+//free(ord);
+return 0;
 }
-void pago(void){
-	int pago,subpago;
-	
-	system("cls");
-		printf("\n\nMonto a pagar :  %d",tortas.Sumatotal);
-		printf("\n\nIngrese el monto recibido :  ");scanf("%d",&pago);
-		if (pago==tortas.Sumatotal){
-			printf("\n\nEl pago fue exacto.");
-		}
-		if (pago>tortas.Sumatotal){
-			subpago=pago-tortas.Sumatotal;
-			printf("\n\nDevuelve de cambio %d pesos",subpago);
-			printf("\n\nRegresando al menu\n\n",subpago);
-		}printf("\n");
-		getch();	
-	
+
+
+int ticket(struct tortas imp[500]){
+
+    int i,p,total=0;
+    FILE *ap;
+    time_t tiempo = time(0);
+    struct tm *hora = localtime(&tiempo);
+    char output[50];
+
+    ap = fopen("ticket.txt","a+");
+
+    fprintf(ap,"\n %s","Ticket");
+
+    strftime(output,50,"%H:%M:%S",hora);
+    fprintf(ap,"\tGenerado a las: %s\n",output);
+
+    for(i=0; i<=t.num; i++){
+            total += imp[i].precio;
+        fprintf(ap,"\n %s\t%d\n",imp[i].tipo,imp[i].precio);
+    }
+    fprintf(ap,"\ntotal: %d\n\n\n\n",total);
+    fclose(ap);
 }
-int main() {
-	FILE *ap;
-	ap=fopen("Tortas.txt","r");
-	
-	fscanf(ap,"%d ",&tortas.clavecub);
-	fgets(tortas.NomCub, 20, ap);
-	fscanf(ap,"%d ",&tortas.PresTortacub1);
-	fscanf(ap,"%d ",&tortas.clavejam);
-	fgets(tortas.NomJam, 20, ap);
-	fscanf(ap,"%d ",&tortas.PresTortajam1);
-	fscanf(ap,"%d ",&tortas.claveesp);
-	fgets(tortas.NomEsp, 20, ap);
-	fscanf(ap,"%d ",&tortas.PresTortaesp1);
-	fscanf(ap,"%d ",&tortas.claveref);
-	fgets(tortas.NomRef, 20, ap);
-	fscanf(ap,"%d ",&tortas.PresTortaref1);
-	fscanf(ap,"%d ",&tortas.clavesal);
-	fclose(ap);
-	while (x==1){
-		menu();
-		scanf("%dop",&op);
-		switch(op){
-		case 1:
-			tortas.CantTortacub=tortas.CantTortacub+1;
-			tortas.PresTortacub=tortas.PresTortacub+40;
-			orden();
-			if (desi !=1){
-				pago();
-				getch();
-			}
-			
-			break;
-		case 2:
-			tortas.CantTortajam=tortas.CantTortajam+1;
-			tortas.PresTortajam=tortas.PresTortajam+20;
-			orden();
-			if (desi !=1){
-				pago();
-			}
-			break;
-		case 3:
-			tortas.CantTortaesp=tortas.CantTortaesp+1;
-			tortas.PresTortaesp=tortas.PresTortaesp+55;
-			orden();
-			if (desi !=1){
-				pago();
-			}
-			break;
-		case 4:
-			tortas.CantTortaref=tortas.CantTortaref+1;
-			tortas.PresTortaref=tortas.PresTortaref+10;
-			orden();
-			if (desi !=1){
-				pago();
-			}
-			break;
-		case 5:
-			printf ("\nGracias por usar el programa.\n");
-			x=0;
-			getch();
-			break;
-		default:
-			printf("numero incorrecto");
-			printf("\n");
-			system("pause");
-			break;
-		}
-		
-	}
-	
-	return 0;
+
+
+
+int menu(){
+    FILE *ap;
+
+    int j,i=0,r;
+    struct tortas array[50];
+
+    ap = fopen("menu.txt","r");
+    if(ap == NULL){
+        printf("ERROR...");
+    }
+    else{
+        printf("Menu Cargado...\n\n");
+    }
+
+    while(feof(ap) == NULL){
+       fgets(array[i].tipo,50,ap);
+
+    i++;
+    }
+    for(j=0; j<i; j++){
+        printf("%s",array[j].tipo);
+    }
+
+
+    fclose(ap);
+/*
+    system("cls");
+    printf("-------MENU--------");
+    printf("\n1.- Torta Cubana...........$40");
+    printf("\n2.- Torta Jamon............$15");
+    printf("\n3.- Torta Especial.........$55");
+    printf("\n4.- Refresco...............$10");
+    printf("\n5.- Salir");
+    */
+    printf("\nElija una opcion: ");
+    scanf("%d",&r);
+
+
+    return r;
 }
